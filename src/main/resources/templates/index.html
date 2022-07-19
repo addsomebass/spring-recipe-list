@@ -6,6 +6,45 @@
 </head>
 <body>
 <h1>My Recipes</h1>
+<!--/*@thymesVar id="recipe" type="com.joevmartin.spring.springrecipelist.domain.Recipe"*/-->
+
+<div th:each="recipe : ${recipeList}">
+	<h2 th:text="${recipe.getDescription()}"></h2>
+	<div>
+		<span th:text="${'Difficulty: ' + recipe.getDifficulty()}"></span><br>
+		<span th:text="${'Categories: ' + recipe.getCategoryList()}"></span><br>
+	</div>
+	<div>
+		<h3>Ingredients</h3>
+		<table>
+			<thead>
+			<tr>
+				<th>Ingredient</th>
+				<th>Amount</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="ingredient : ${recipe.getIngredients()}">
+				<td th:text="${ingredient.getDescription()}"></td>
+				<td th:text="${ingredient.getAmount() + ' - ' + ingredient.getUom().getDescription()}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>
+
+<table>
+	<thead>
+	<tr>
+		<th>Recipe</th>
+		<th>Category</th>
+		<th>Prep Time</th>
+		<th>Cook Time</th>
+		<th>Ingredients</th>
+	</tr>
+	</thead>
+</table>
 
 </body>
 </html>
