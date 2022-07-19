@@ -123,10 +123,21 @@ public class Recipe {
 
 	public void setNote( Note note ) {
 		this.note = note;
+		note.setRecipe( this );
 	}
 
 	public Set<Ingredient> getIngredients() {
 		return ingredients;
+	}
+
+	public void addIngredient( Ingredient ingredient ) {
+		ingredient.setRecipe( this );
+		getIngredients().add( ingredient );
+	}
+
+	public void addCategory ( Category category ) {
+		category.getRecipes().add( this );
+		getCategories().add( category );
 	}
 
 	public void setIngredients( Set<Ingredient> ingredients ) {
