@@ -1,7 +1,10 @@
 package com.joevmartin.spring.springrecipelist.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 public class Note {
 
@@ -16,19 +19,4 @@ public class Note {
 	@Lob
 	private String recipeNote;
 
-	public Recipe getRecipe() {
-		return recipe;
-	}
-
-	public void setRecipe( Recipe recipe ) {
-		this.recipe = recipe;
-	}
-
-	public String getRecipeNote() {
-		return recipeNote;
-	}
-
-	public void setRecipeNote( String recipeNote ) {
-		this.recipeNote = recipeNote;
-	}
 }

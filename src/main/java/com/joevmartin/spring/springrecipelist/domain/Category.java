@@ -1,9 +1,13 @@
 package com.joevmartin.spring.springrecipelist.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
+@EqualsAndHashCode(exclude = {"recipes"})
 @Entity
 public class Category {
 
@@ -15,7 +19,7 @@ public class Category {
 
 
 	//Add FetchType.EAGER here to fix the LazyInitializationException
-	@ManyToMany(mappedBy = "categories")
+	@ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
 	private Set<Recipe> recipes = new HashSet<>();
 
 	public Long getId() {
@@ -26,24 +30,4 @@ public class Category {
 		Id = id;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription( String name ) {
-		this.description = name;
-	}
-
-	public Set<Recipe> getRecipes() {
-		return recipes;
-	}
-
-	public void setRecipes( Set<Recipe> recipes ) {
-		this.recipes = recipes;
-	}
-
-	@Override
-	public String toString() {
-		return description;
-	}
 }

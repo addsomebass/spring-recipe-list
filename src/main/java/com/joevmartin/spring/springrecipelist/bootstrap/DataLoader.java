@@ -6,15 +6,18 @@ import com.joevmartin.spring.springrecipelist.repositories.RecipeRepository;
 import com.joevmartin.spring.springrecipelist.repositories.UnitOfMeasureRepository;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Slf4j
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
 	private RecipeRepository recipeRepository;
@@ -22,6 +25,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 	private UnitOfMeasureRepository unitOfMeasureRepository;
 
 	@Override
+	@Transactional
 	public void onApplicationEvent( ContextRefreshedEvent event ) {
 		final List<Recipe> recipes = getRecipes();
 
@@ -39,6 +43,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
 
 	public List<Recipe> getRecipes() {
+
+		log.debug( "About to load recipes" );
 
 		final Category italian = categoryRepository.findByDescription( "Italian" ).orElseThrow( RuntimeException::new );
 		final Category american = categoryRepository.findByDescription( "American" ).orElseThrow( RuntimeException::new );
