@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -18,9 +19,9 @@ public class RecipeServiceImpl implements RecipeService {
 		this.recipeRepository = recipeRepository;
 	}
 
-	public List<Recipe> getRecipes() {
+	public Set<Recipe> getRecipes() {
 		return StreamSupport.stream( recipeRepository.findAll().spliterator(), false )
-				.collect( Collectors.toList() );
+				.collect( Collectors.toSet() );
 	}
 
 }

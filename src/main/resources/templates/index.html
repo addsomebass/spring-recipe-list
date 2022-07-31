@@ -2,49 +2,65 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Recipe Home</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 </head>
 <body>
 <h1>My Recipes</h1>
+
 <!--/*@thymesVar id="recipe" type="com.joevmartin.spring.springrecipelist.domain.Recipe"*/-->
 
-<div th:each="recipe : ${recipeList}">
-	<h2 th:text="${recipe.getDescription()}"></h2>
-	<div>
-		<span th:text="${'Difficulty: ' + recipe.getDifficulty()}"></span><br>
-		<span th:text="${'Categories: ' + recipe.getCategoryList()}"></span><br>
-	</div>
-	<div>
-		<h3>Ingredients</h3>
-		<table>
-			<thead>
-			<tr>
-				<th>Ingredient</th>
-				<th>Amount</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr th:each="ingredient : ${recipe.getIngredients()}">
-				<td th:text="${ingredient.getDescription()}"></td>
-				<td th:text="${ingredient.getAmount() + ' - ' + ingredient.getUom().getDescription()}"></td>
-			</tr>
-			</tbody>
-		</table>
-	</div>
 
+
+<div class="container-fluid" style="margin-top: 20px" th:if="${ not #lists.isEmpty(recipeList) }">
+	<div class="row" th:each="recipe : ${recipeList}">
+		<div class="col-md-6 col-md-offset">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<span th:text="${recipe.description}"></span>
+				</div>
+				<div class="panel-body">
+					<p class="text-info" th:text="'Difficulty: ' + ${recipe.getDifficulty()}"></p>
+					<p class="text-info" th:text="'Categories: ' + ${recipe.getCategoryList()}"></p>
+				</div>
+<!--				<div class="panel-heading text-secondary" th:text="${'Difficulty: ' + recipe.getDifficulty()}"></div>-->
+<!--
+
+				<span th:text="${'Difficulty: ' + recipe.getDifficulty()}"></span><br>
+				<span th:text="${'Categories: ' + recipe.getCategoryList()}"></span><br>
+-->
+
+				<div class="panel-body">
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<thead class="thead-inverse">
+							<tr>
+								<th>Ingredient</th>
+								<th>Amount</th>
+							</tr>
+							</thead>
+
+							<tr th:each="ingredient : ${recipe.getIngredients()}">
+								<td th:text="${ingredient.getDescription()}"></td>
+								<td th:text="${ingredient.getAmount() + ' - ' + ingredient.getUom().getDescription()}"></td>
+							</tr>
+
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-
-<table>
-	<thead>
-	<tr>
-		<th>Recipe</th>
-		<th>Category</th>
-		<th>Prep Time</th>
-		<th>Cook Time</th>
-		<th>Ingredients</th>
-	</tr>
-	</thead>
-</table>
 
 </body>
 </html>

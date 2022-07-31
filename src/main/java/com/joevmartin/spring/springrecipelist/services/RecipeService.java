@@ -3,8 +3,9 @@ package com.joevmartin.spring.springrecipelist.services;
 import com.joevmartin.spring.springrecipelist.domain.Recipe;
 
 import java.util.List;
+import java.util.Set;
 
 public interface RecipeService {
 
-	public List<Recipe> getRecipes();
+	public Set<Recipe> getRecipes();
 }

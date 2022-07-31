@@ -25,7 +25,6 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 	private UnitOfMeasureRepository unitOfMeasureRepository;
 
 	@Override
-	@Transactional
 	public void onApplicationEvent( ContextRefreshedEvent event ) {
 		final List<Recipe> recipes = getRecipes();
 
