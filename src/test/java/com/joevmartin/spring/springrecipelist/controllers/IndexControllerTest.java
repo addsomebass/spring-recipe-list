@@ -1,17 +1,27 @@
 package com.joevmartin.spring.springrecipelist.controllers;
 
-import com.joevmartin.spring.springrecipelist.domain.Difficulty;
 import com.joevmartin.spring.springrecipelist.domain.Recipe;
-import com.joevmartin.spring.springrecipelist.repositories.RecipeRepository;
 import com.joevmartin.spring.springrecipelist.services.RecipeService;
-import com.joevmartin.spring.springrecipelist.services.RecipeServiceImpl;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
 import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 class IndexControllerTest {
 
@@ -28,7 +38,7 @@ class IndexControllerTest {
 	@BeforeEach
 	void setUp() {
 		mockitoAnnotations = MockitoAnnotations.openMocks( this );
-//		recipeService = new RecipeServiceImpl( recipeRepository );
+		controller = new IndexController( recipeService );
 	}
 
 	@AfterEach
@@ -37,16 +47,50 @@ class IndexControllerTest {
 	}
 
 	@Test
+	void testMockMVC() throws Exception {
+
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup( controller ).build();
+
+		mockMvc.perform( get("/") )
+				.andExpect( status().isOk() )
+				.andExpect( view().name( "index" ) );
+
+	}
+
+	@Test
 	void getIndexPage() {
 
-		controller = new IndexController( recipeService );
+		//given
+		Set<Recipe> recipes = new HashSet<>();
 
+		final Recipe recipe1 = new Recipe();
+		recipe1.setId( 1L );
+		recipes.add( recipe1 );
+
+		final Recipe recipe2 = new Recipe();
+		recipe2.setId( 2L );
+		recipes.add( recipe2 );
+
+
+		when(recipeService.getRecipes()).thenReturn( recipes );
+
+		ArgumentCaptor<Set<Recipe>> setArgumentCaptor = ArgumentCaptor.forClass( Set.class );
+
+
+
+		//when
 		final String indexPage = controller.getIndexPage( model );
 
-		Assertions.assertEquals( indexPage, "index" );
-		Mockito.verify( recipeService, Mockito.times( 1 ) ).getRecipes();
-		Mockito.verify( model, Mockito.times( 1 ) )
-				.addAttribute( Mockito.eq( "recipes" ), Mockito.anySet() );
+
+		//then
+		assertEquals( indexPage, "index" );
+		verify( recipeService, times( 1 ) ).getRecipes();
+		verify( model, times( 1 ) )
+				.addAttribute( eq( "recipes" ), setArgumentCaptor.capture() );
+		final Set<Recipe> setInController = setArgumentCaptor.getValue();
+
+		assertEquals(2, setInController.size());
+
 
 
 	}
