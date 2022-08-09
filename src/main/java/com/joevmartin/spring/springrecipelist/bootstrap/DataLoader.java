@@ -47,6 +47,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
 		final Category italian = categoryRepository.findByDescription( "Italian" ).orElseThrow( RuntimeException::new );
 		final Category american = categoryRepository.findByDescription( "American" ).orElseThrow( RuntimeException::new );
+		final Category traditional = categoryRepository.findByDescription( "Traditional" ).orElseThrow( RuntimeException::new );
 
 		final UnitOfMeasure cup = unitOfMeasureRepository.findByDescription( "Cup" ).orElseThrow( RuntimeException::new );
 		final UnitOfMeasure teaspoon = unitOfMeasureRepository.findByDescription( "Teaspoon" ).orElseThrow( RuntimeException::new );
@@ -62,6 +63,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 			recipe.setCookTime( 150 );
 			recipe.setPrepTime( 10 );
 			recipe.addCategory( american );
+			recipe.addCategory( traditional );
 			recipe.setDescription( "Zojirushi Bread" );
 			recipe.setDirections( "See note for directions" );
 			recipe.setSource( "Bread Beckers - Recipe Collection - Basic Dough Recipe" );
