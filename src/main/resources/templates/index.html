@@ -34,7 +34,8 @@
 				<div class="panel-body">
 					<p class="text-info" th:text="'Difficulty: ' + ${recipe.getDifficulty()}"></p>
 					<p class="text-info" th:text="'Categories: ' + ${recipe.getCategoryList()}"></p>
-					<a class="btn btn-primary" href="#" th:href="@{'recipe/show/' + ${recipe.getId()}}">View Recipe</a>
+					<a class="btn btn-primary" href="#" th:href="@{'recipe/' + ${recipe.getId()} + '/show'}">View Recipe</a>
+					<a class="btn btn-primary" href="#" th:href="@{'recipe/' + ${recipe.getId()} + '/update'}">Update Recipe</a>
 				</div>
 <!--				<div class="panel-heading text-secondary" th:text="${'Difficulty: ' + recipe.getDifficulty()}"></div>-->
 <!--

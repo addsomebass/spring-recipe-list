@@ -42,6 +42,17 @@ public class RecipeServiceImpl implements RecipeService {
 		return byId.get();
 	}
 
+	@Override
+	public RecipeCommand findCommandById( Long id ) {
+		final Optional<Recipe> byId = recipeRepository.findById( id );
+
+		if (byId.isEmpty()) {
+			throw new RuntimeException("Could not find Recipe with id: " + id);
+		}
+
+		return recipeToRecipeCommand.convert( byId.get() );
+	}
+
 	@Transactional
 	@Override
 	public RecipeCommand saveRecipeCommand( RecipeCommand recipeCommand ) {
@@ -50,7 +61,5 @@ public class RecipeServiceImpl implements RecipeService {
 		final Recipe save = recipeRepository.save( detachedRecipe );
 
 		return recipeToRecipeCommand.convert( save );
-
-
 	}
 }
